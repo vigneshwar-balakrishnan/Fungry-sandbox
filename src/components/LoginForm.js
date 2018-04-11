@@ -4,12 +4,12 @@ import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
 
 class LoginForm extends Component {
-    state = { email: '', password: '', error: '', loading: false,  response: []  };
+    state = { email: '', password: '', error: '', loading: false, response: [] };
 
     onButtonPress() {
-        const {email, password} = this.state;
+        const { email, password } = this.state;
 
-        this.setState({ error: '', loading: true}); // this is to reset the error msg for correct sigin after wrong attempt
+        this.setState({ error: '', loading: true }); // this is to reset the error msg for correct sigin after wrong attempt
 
         // firebase.auth().signInWithEmailAndPassword(email,password)
         //     .then(this.onLoginSuccess.bind(this))
@@ -17,7 +17,7 @@ class LoginForm extends Component {
         //         firebase.auth().createUserWithEmailAndPassword(email, password)
         //             .catch(this.onLoginFail.bind(this));
         //     });
-        
+
         fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             body: JSON.stringify({
@@ -28,50 +28,58 @@ class LoginForm extends Component {
                 'Content-Type': 'application/json'
             })
         })
-        .then(res => res.json())
-        .then( data => {
-            this.setState({
-                response: data.error
+            .then(res => res.json())
+            .then(data => {
+                if (data.error !== null) {
+                    this.setState({
+                        response: data.error
+                    })
+                } else {
+                    this.setState({
+                        error: data.message
+                    })
+                    this.onLoginSuccess.bind(this);
+                }
+
             })
-        })
-        .catch(data => {
-            this.setState({
-                response: "data.error"
+            .catch((error) => {
+                this.setState({
+                    response: "Unknown error =>" + error.toString()
+                })
             })
-        })
         // fetch('https://rallycoding.herokuapp.com/api/music_albums')
         // .then(response => response.json())
         // .then(data => this.setState({ response: data }))
         // .catch( error => this.setState({ response: "error" }));
-              
+
     }
 
     onLoginFail() {
         this.setState({ error: 'Authentication Failed', loading: false });
-      }
+    }
 
     onLoginSuccess() {
         this.setState({
-          email: '',
-          password: '',
-          loading: false,
-          error: ''
+            email: '',
+            password: '',
+            loading: false,
+            // error: ''
         });
-      }
+    }
 
-    renderButton(){
-        if(this.state.loading){
+    renderButton() {
+        if (this.state.loading) {
             return <Spinner />
         }
         // if else can also be used ,since default else is return button keep plain
-        return(
+        return (
             <Button onTap={this.onButtonPress.bind(this)} >
                 Log In
             </Button>
-           
+
         )
     }
-   
+
     renderResponse() {
         if (this.state.response.length > 0) {
             return this.state.response;
@@ -108,15 +116,15 @@ class LoginForm extends Component {
                 <Text style={styles.errorTextStyle}>
                     {this.renderResponse()}
                 </Text>
-
+               
                 <CardSection>
                     {this.renderButton()}
                 </CardSection>
 
-               <Button>
-                   lala
+                <Button>
+                    lala
                </Button>
-                
+
             </Card>
         )
     }
