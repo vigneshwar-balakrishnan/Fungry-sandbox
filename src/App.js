@@ -5,7 +5,7 @@ import { Header, Button, Spinner } from './components/common';
 import  LoginForm  from './components/LoginForm'
 
 class App extends Component{
-    state = { loggedIn: null}
+    state = { loggedIn: false,}
     componentWillMount(){
         firebase.initializeApp({
             apiKey: "AIzaSyBgbj6NARdbbBLk_03zEnBjY_5-dB8XslU",
@@ -24,6 +24,7 @@ class App extends Component{
             }
 
         });
+        
     }
     renderContent() {
         switch (this.state.loggedIn) {
@@ -40,6 +41,7 @@ class App extends Component{
         }
       }
     render(){
+       
         return(
             <View>
                 <Header headerText="Auth" />
