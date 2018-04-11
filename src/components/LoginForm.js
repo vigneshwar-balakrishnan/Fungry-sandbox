@@ -18,31 +18,31 @@ class LoginForm extends Component {
         //             .catch(this.onLoginFail.bind(this));
         //     });
         
-        // fetch('http://localhost:3000/api/auth/login', {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         email: email,
-        //         password: password
-        //     }),
-        //     headers: new Headers({
-        //         'Content-Type': 'application/json'
-        //     })
-        // })
-        // .then(res => res.json())
-        // .then( data => {
-        //     this.setState({
-        //         response: data.error
-        //     })
-        // })
-        // .catch(data => {
-        //     this.setState({
-        //         response: "data.error"
-        //     })
-        // })
-        fetch('https://rallycoding.herokuapp.com/api/music_albums')
-        .then(response => response.json())
-        .then(data => this.setState({ response: data }))
-        .catch( error => this.setState({ response: "error" }));
+        fetch('http://localhost:3000/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: email,
+                password: password
+            }),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(res => res.json())
+        .then( data => {
+            this.setState({
+                response: data.error
+            })
+        })
+        .catch(data => {
+            this.setState({
+                response: "data.error"
+            })
+        })
+        // fetch('https://rallycoding.herokuapp.com/api/music_albums')
+        // .then(response => response.json())
+        // .then(data => this.setState({ response: data }))
+        // .catch( error => this.setState({ response: "error" }));
               
     }
 
@@ -74,7 +74,7 @@ class LoginForm extends Component {
    
     renderResponse() {
         if (this.state.response.length > 0) {
-            return this.state.response[0].title;
+            return this.state.response;
         } else {
             return "Empty response"
         }
